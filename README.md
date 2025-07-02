@@ -3,7 +3,8 @@
 This repository contains a simple prototype for a UK budget simulator. The
 project is written in React and includes sliders for adjusting revenue and
 spending categories. Derived totals are displayed along with placeholder
-charts.
+charts. Departmental budget sliders automatically scale each category's
+spending when budgets are reduced.
 
 ## File Structure
 
@@ -54,3 +55,7 @@ finances databank**. See `src/data/obr2024Budget.js` for the exact figures used.
 Multipliers and other economic parameters are documented in
 `src/data/assumptions.js` with academic references (IMF 2014, OECD 2016,
 Diamond & Saez 2011).
+
+The simulator now lists the major UK government departments such as the
+Home Office, Ministry of Justice and Foreign Office. Smaller bodies are grouped
+under **Other Departments**.

@@ -63,6 +63,16 @@ uk-budget-simulator/
 - Pensions
 - Infrastructure
 - Local Government Grants
+- Home Office
+- Justice
+- Business & Trade
+- Environment
+- Foreign Affairs
+- Culture
+- Science & Innovation
+- HM Treasury
+- Cabinet Office
+- Other Departments
 - Debt Interest
 
 ## 📊 Derived Metrics
