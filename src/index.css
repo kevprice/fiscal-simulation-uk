@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  @apply font-sans text-gray-800 text-sm;
+  font-family: Arial, Helvetica, sans-serif;
+}

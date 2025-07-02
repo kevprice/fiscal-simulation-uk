@@ -47,7 +47,7 @@ function DepartmentGroup({ departments, spending, onChange }) {
         };
 
         return (
-          <div key={deptName} className="border rounded p-2 bg-gray-50">
+          <div key={deptName} className="border rounded p-2 bg-gray-50 text-sm">
             <h3 className="font-semibold mb-2">{deptName}</h3>
             {budget !== undefined && (
               <p className="text-sm mb-2">

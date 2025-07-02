@@ -75,8 +75,8 @@ const OutputSummary = ({ revenue, spending, debt, year, deficit, gdpGain }) => {
   const growthRate = ((gdpGain || 0) / macroBaseline.gdp) * 100;
 
   return (
-    <div className="p-4 rounded-xl shadow bg-white space-y-2">
-      <h2 className="text-xl font-bold">Budget Summary - {year}</h2>
+    <div className="p-4 rounded-xl shadow bg-white space-y-2 text-sm">
+      <h2 className="text-lg font-bold">Budget Summary - {year}</h2>
       <p>
         Total Revenue: £{totalRevenue.toFixed(1)}bn
         <span className="ml-1 text-blue-600 cursor-help" title={summaryInfo.revenue}>?</span>
