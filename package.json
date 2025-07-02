@@ -1,0 +1,7 @@
+{
+  "name": "fiscal-simulation",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "node test/gdp.test.js"
+  }
+}
