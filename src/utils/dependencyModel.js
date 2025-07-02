@@ -12,7 +12,7 @@ import { fiscalBaseline } from '../data/fiscalBaseline';
 
 /**
  * Applies interdependencies and macroeconomic effects based on fiscal changes.
- * Returns a new adjusted state with updated revenue values based on spending.
+ * Returns a new adjusted state with updated revenue values.
  */
 export function applyDependencies(state) {
   const newState = JSON.parse(JSON.stringify(state));
@@ -22,8 +22,7 @@ export function applyDependencies(state) {
   const extraEducation = newState.spending.education - fiscalBaseline.spending.education;
   const extraHealth = newState.spending.health - fiscalBaseline.spending.health;
 
-  // --- GDP Boosts ---
-
+  // --- GDP Boosts from Spending ---
   let totalGDPGain = 0;
 
   if (extraUnemp > 0) {
@@ -42,18 +41,20 @@ export function applyDependencies(state) {
     totalGDPGain += healthGDPBoost(extraHealth); // WHO/Bloom 2008
   }
 
-  // --- Apply GDP Gains to Revenue ---
-  // Simplified mapping of GDP growth into tax revenue boosts
-  newState.revenue.incomeTax += totalGDPGain * 0.3;
-  newState.revenue.vat += totalGDPGain * 0.2;
-  newState.revenue.corporationTax += totalGDPGain * 0.1;
-
-  // --- Laffer Curve Effect on Income Tax ---
+  // --- Base Income Tax from Laffer Curve ---
   if (newState.sliderState?.incomeTaxRate !== undefined) {
     const taxRate = newState.sliderState.incomeTaxRate; // e.g. 0.45 = 45%
-    const peakRevenue = 350; // Theoretical peak income tax revenue
-    newState.revenue.incomeTax = lafferCurve(taxRate) * peakRevenue;
+    const peakRevenue = 350;
+
+    const baseIncomeTax = lafferCurve(taxRate, 0.6) * peakRevenue;
+    const incomeTaxBoost = totalGDPGain * 0.3;
+
+    newState.revenue.incomeTax = baseIncomeTax + incomeTaxBoost;
   }
+
+  // --- Other Taxes Boosted by GDP ---
+  newState.revenue.vat += totalGDPGain * 0.2;
+  newState.revenue.corporationTax += totalGDPGain * 0.1;
 
   return newState;
 }
