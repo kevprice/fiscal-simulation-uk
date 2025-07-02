@@ -21,5 +21,16 @@ export function applyDependencies(state) {
   const estimatedMax = 350; // theoretical max revenue at optimal rate
   newState.revenue.incomeTax = lafferCurve(taxRate) * estimatedMax;
 
+  // Employment penalty: higher unemployment spending reduces income tax revenue
+  const extraUnemployment =
+    newState.spending.unemployment - fiscalBaseline.spending.unemployment;
+  if (extraUnemployment > 0) {
+    const penalty = extraUnemployment * 0.2;
+    newState.revenue.incomeTax = Math.max(
+      0,
+      newState.revenue.incomeTax - penalty
+    );
+  }
+
   return newState;
 }
