@@ -38,6 +38,11 @@ const OutputSummary = ({ revenue, spending, debt, year, deficit, gdpGain }) => {
       <p>Total Revenue: £{totalRevenue.toFixed(1)}bn</p>
       <p>Total Spending: £{totalSpending.toFixed(1)}bn</p>
       <p>GDP: £{gdp.toFixed(1)}bn</p>
+      {gdpGain !== undefined && (
+        <p className="text-xs text-gray-700">
+          GDP change from fiscal policy: £{gdpGain.toFixed(1)}bn
+        </p>
+      )}
       <p>
         {balance >= 0
           ? `Surplus: £${balance.toFixed(1)}bn`

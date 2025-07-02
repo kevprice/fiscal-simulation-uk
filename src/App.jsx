@@ -217,6 +217,7 @@ function App() {
           happiness={happiness}
           interestRate={interestRate}
           unemploymentRate={unemploymentRate}
+          gdpGain={adjustedState.gdpGain}
         />
       </div>
       <div className="flex space-x-2 mt-4">
