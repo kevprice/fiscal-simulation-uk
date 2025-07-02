@@ -9,8 +9,9 @@ charts.
 
 ```
 uk-budget-simulator/
+├── index.html
 ├── public/
-│   └── index.html
+│   └── (static assets)
 ├── src/
 │   ├── components/
 │   │   ├── SliderGroup.jsx
@@ -22,11 +23,25 @@ uk-budget-simulator/
 │   │   └── calculations.js
 │   ├── App.jsx
 │   ├── index.js
+│   ├── index.css
 │   └── gdp.js
 ├── test/
 │   └── gdp.test.js
+├── vite.config.js
+├── tailwind.config.cjs
+├── postcss.config.cjs
 └── codex_context.md
 ```
 
-The React UI is provided as a lightweight example and does not include a
-build setup. The `npm test` script runs the existing GDP percentile tests.
+## Development
+
+Install dependencies and start the development server:
+
+```bash
+npm install
+npm run dev
+```
+
+Build for production with `npm run build` and preview it with `npm run preview`.
+
+The `npm test` script runs the existing GDP percentile tests.

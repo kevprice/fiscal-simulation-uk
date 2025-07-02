@@ -19,6 +19,7 @@ The app is meant to be **educational, intuitive, and data-informed**. The user i
 
 uk-budget-simulator/
 │
+├── index.html
 ├── public/
 ├── src/
 │ ├── components/
@@ -33,8 +34,12 @@ uk-budget-simulator/
 │ │ └── calculations.js # Derived values like totals and debt logic
 │ │
 │ ├── App.jsx # Main layout and app logic
-│ └── index.js # React root
+│ ├── index.js # React root
+│ └── index.css # Tailwind base styles
 │
+├── vite.config.js
+├── tailwind.config.cjs
+├── postcss.config.cjs
 ├── context.md # Codex context file describing project
 ├── package.json
 └── README.md
