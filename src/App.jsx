@@ -3,15 +3,19 @@ import SliderGroup from './components/SliderGroup';
 import OutputSummary from './components/OutputSummary';
 import ChartDisplay from './components/ChartDisplay';
 import { revenueBaseline, spendingBaseline } from './data/fiscalBaseline';
-import { calculateTotals } from './utils/calculations';
+import {
+  getTotalRevenue,
+  getTotalSpending,
+} from './utils/calculations';
 import { applyDependencies } from './utils/dependencyModel';
 
 function App() {
   const [revenue, setRevenue] = useState(revenueBaseline);
   const [spending, setSpending] = useState(spendingBaseline);
+  const [year, setYear] = useState(2024);
+  const [debt, setDebt] = useState(2000); // Starting national debt in £bn
 
   const adjustedState = applyDependencies({ revenue, spending });
-  const totals = calculateTotals(adjustedState.revenue, adjustedState.spending);
 
   const handleRevenueChange = (index, value) => {
     const keys = Object.keys(revenue);
@@ -57,7 +61,29 @@ function App() {
           onChange={handleSpendingChange}
         />
       </div>
-      <OutputSummary totals={totals} />
+      <OutputSummary
+        revenue={adjustedState.revenue}
+        spending={adjustedState.spending}
+        debt={debt}
+        year={year}
+      />
+      <button
+        onClick={() => {
+          const totalRevenue = getTotalRevenue(adjustedState.revenue);
+          const totalSpending = getTotalSpending(adjustedState.spending);
+          const deficit = totalRevenue - totalSpending;
+
+          setDebt((prevDebt) => {
+            const nextDebt = prevDebt + (deficit < 0 ? -deficit : 0);
+            return parseFloat(nextDebt.toFixed(1));
+          });
+
+          setYear((prevYear) => prevYear + 1);
+        }}
+        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+      >
+        Simulate Next Year
+      </button>
       <ChartDisplay />
     </div>
   );
