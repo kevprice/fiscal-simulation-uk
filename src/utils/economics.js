@@ -59,13 +59,49 @@ export function healthGDPBoost(extraHealthSpending, multiplier = 1.3) {
 }
 
 /**
- * Dynamic Interest Rate Model
- * As national debt increases, so does risk and interest burden.
- * These thresholds are illustrative, not predictive.
+ * Dynamic Interest Rate Model with deficit impact
+ * Higher deficits can push interest rates up through crowding-out effects.
+ * See Gale & Orszag (2003) - Economic Effects of Sustained Budget Deficits.
  */
-export function getDynamicInterestRate(debt) {
-  if (debt < 1000) return 0.02;
-  if (debt < 2000) return 0.025;
-  if (debt < 3000) return 0.03;
-  return 0.04;
+export function getDynamicInterestRate(debt, deficit = 0) {
+  let base;
+  if (debt < 1000) base = 0.02;
+  else if (debt < 2000) base = 0.025;
+  else if (debt < 3000) base = 0.03;
+  else base = 0.04;
+
+  // Add 0.01 percentage points for each £100bn of deficit
+  const deficitAdj = Math.max(0, deficit) * 0.0001;
+  return base + deficitAdj;
+}
+
+/**
+ * Unemployment response via Okun's Law.
+ * Roughly 1% extra GDP growth reduces unemployment by about 0.3ppt.
+ * Source: Okun (1962) - Potential GNP: Its Measurement and Significance.
+ */
+export function getUnemploymentRate(
+  baseRate,
+  gdpGain,
+  baselineGDP,
+  okunCoeff = 0.3
+) {
+  const gdpGrowth = gdpGain / baselineGDP;
+  const delta = -okunCoeff * gdpGrowth * 100;
+  return +(baseRate + delta).toFixed(2);
+}
+
+/**
+ * Simple immigration elasticity to economic growth.
+ * Empirical studies suggest positive correlation between GDP growth and net migration.
+ * Elasticity assumed at 0.1 for demonstration (ONS migration data).
+ */
+export function getNetMigration(
+  baseMigration,
+  gdpGain,
+  baselineGDP,
+  elasticity = 0.1
+) {
+  const gdpGrowth = gdpGain / baselineGDP;
+  return +(baseMigration * (1 + elasticity * gdpGrowth)).toFixed(2);
 }
