@@ -31,6 +31,7 @@ const OutputSummary = ({ revenue, spending, debt, year, deficit, gdpGain }) => {
   );
   const happiness = calculateHappinessIndex(spending);
   const gdp = macroBaseline.gdp + (gdpGain || 0);
+  const growthRate = ((gdpGain || 0) / macroBaseline.gdp) * 100;
 
   return (
     <div className="p-4 rounded-xl shadow bg-white space-y-2">
@@ -54,6 +55,7 @@ const OutputSummary = ({ revenue, spending, debt, year, deficit, gdpGain }) => {
       <p>Unemployment Rate: {unemployment.toFixed(1)}%</p>
       <p>Net Migration: {migration.toFixed(2)}m</p>
       <p>Happiness Index: {happiness}/10</p>
+      <p>Economic Growth: {growthRate.toFixed(2)}%</p>
     </div>
   );
 };
