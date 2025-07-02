@@ -1,7 +1,6 @@
 // src/utils/dependencyModel.js
 
 import {
-  lafferCurve,
   unemploymentGDPBoost,
   infrastructureGDPBoost,
   educationGDPBoost,
@@ -41,16 +40,9 @@ export function applyDependencies(state) {
     totalGDPGain += healthGDPBoost(extraHealth); // WHO/Bloom 2008
   }
 
-  // --- Base Income Tax from Laffer Curve ---
-  if (newState.sliderState?.incomeTaxRate !== undefined) {
-    const taxRate = newState.sliderState.incomeTaxRate; // e.g. 0.45 = 45%
-    const peakRevenue = 350;
-
-    const baseIncomeTax = lafferCurve(taxRate, 0.6) * peakRevenue;
-    const incomeTaxBoost = totalGDPGain * 0.3;
-
-    newState.revenue.incomeTax = baseIncomeTax + incomeTaxBoost;
-  }
+  // --- Income Tax uplift from higher GDP ---
+  // 30% of the additional GDP is assumed to generate income tax revenue
+  newState.revenue.incomeTax += totalGDPGain * 0.3;
 
   // --- Other Taxes Boosted by GDP ---
   newState.revenue.vat += totalGDPGain * 0.2;
