@@ -18,7 +18,8 @@ uk-budget-simulator/
 │   │   ├── OutputSummary.jsx
 │   │   └── ChartDisplay.jsx
 │   ├── data/
-│   │   └── fiscalBaseline.js
+│   │   ├── fiscalBaseline.js
+│   │   └── assumptions.js
 │   ├── utils/
 │   │   └── calculations.js
 │   ├── App.jsx
@@ -45,3 +46,10 @@ npm run dev
 Build for production with `npm run build` and preview it with `npm run preview`.
 
 The `npm test` script runs the existing GDP percentile tests.
+
+## Assumptions and Sources
+
+Key multipliers and parameter choices are documented in `src/data/assumptions.js`.
+These include references for unemployment spending multipliers (IMF, 2014),
+infrastructure effects (OECD, 2016) and the assumed peak of the Laffer curve for
+income tax (Diamond & Saez, 2011).
