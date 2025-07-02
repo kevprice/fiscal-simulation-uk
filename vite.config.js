@@ -5,3 +5,4 @@ export default defineConfig({
   base: '/fiscal-simulation-uk/', // ⚠️ MUST MATCH your repo name
   plugins: [react()]
 });
+
