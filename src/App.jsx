@@ -190,15 +190,17 @@ function App() {
         spending={spending}
         onChange={handleSpendingChange}
       />
-      <OutputSummary
-        revenue={adjustedState.revenue}
-        spending={adjustedState.spending}
-        debt={debt}
-        year={year}
-        deficit={deficitCurrent}
-        gdpGain={adjustedState.gdpGain}
-      />
-      <InfoBox text={infoText} />
+      <div className="fixed top-4 right-4 max-w-xs z-10 space-y-2">
+        <OutputSummary
+          revenue={adjustedState.revenue}
+          spending={adjustedState.spending}
+          debt={debt}
+          year={year}
+          deficit={deficitCurrent}
+          gdpGain={adjustedState.gdpGain}
+        />
+        <InfoBox text={infoText} />
+      </div>
       <div className="flex space-x-2 mt-4">
         <button
           onClick={simulateNextYear}
