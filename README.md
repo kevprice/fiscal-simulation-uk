@@ -22,7 +22,7 @@ uk-budget-simulator/
 │   ├── utils/
 │   │   └── calculations.js
 │   ├── App.jsx
-│   ├── index.js
+│   ├── index.jsx
 │   ├── index.css
 │   └── gdp.js
 ├── test/
