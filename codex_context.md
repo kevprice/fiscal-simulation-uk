@@ -11,7 +11,7 @@ The app is meant to be **educational, intuitive, and data-informed**. The user i
 
 - **Frontend**: React + Tailwind CSS
 - **Charts**: Chart.js (via react-chartjs-2)
-- **Data**: Hardcoded fiscal baseline from OBR and Treasury, with optional real-data import later.
+- **Data**: Baseline figures use the OBR March 2024 public finances databank. Optional real-data import may be added later.
 - **Backend**: Not required initially. Future versions may include Python or Node.js simulation logic.
 
 ## 📁 File Structure
