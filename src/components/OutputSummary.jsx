@@ -30,12 +30,14 @@ const OutputSummary = ({ revenue, spending, debt, year, deficit, gdpGain }) => {
     macroBaseline.gdp
   );
   const happiness = calculateHappinessIndex(spending);
+  const gdp = macroBaseline.gdp + (gdpGain || 0);
 
   return (
     <div className="p-4 rounded-xl shadow bg-white space-y-2">
       <h2 className="text-xl font-bold">Budget Summary - {year}</h2>
       <p>Total Revenue: £{totalRevenue.toFixed(1)}bn</p>
       <p>Total Spending: £{totalSpending.toFixed(1)}bn</p>
+      <p>GDP: £{gdp.toFixed(1)}bn</p>
       <p>
         {balance >= 0
           ? `Surplus: £${balance.toFixed(1)}bn`

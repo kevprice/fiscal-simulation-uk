@@ -8,6 +8,7 @@ import InfoBox from './components/InfoBox';
 import ChartDisplay from './components/ChartDisplay';
 import HistoryChart from './components/HistoryChart';
 import { revenueBaseline, spendingBaseline } from './data/fiscalBaseline';
+import { macroBaseline } from './data/macroBaseline';
 import { departmentBudgets } from './data/departmentBudgets';
 import {
   getTotalRevenue,
@@ -15,6 +16,11 @@ import {
   getDeficit,
 } from './utils/calculations';
 import { applyDependencies } from './utils/dependencyModel';
+import {
+  getDynamicInterestRate,
+  getUnemploymentRate,
+} from './utils/economics';
+import { calculateHappinessIndex } from './utils/qualityOfLife';
 
 const defaultInfo =
   'This simulator uses baseline figures from the Office for Budget Responsibility\'s March 2024 Public Finances databank. Department budgets are mapped from the same source. Spending multipliers and other assumptions are documented in src/data/assumptions.js.';
@@ -77,6 +83,13 @@ function App() {
 
   const adjustedState = applyDependencies({ revenue, spending });
   const deficitCurrent = getDeficit(adjustedState.revenue, adjustedState.spending);
+  const interestRate = getDynamicInterestRate(debt, deficitCurrent);
+  const unemploymentRate = getUnemploymentRate(
+    macroBaseline.unemploymentRate,
+    adjustedState.gdpGain || 0,
+    macroBaseline.gdp
+  );
+  const happiness = calculateHappinessIndex(adjustedState.spending);
 
   const simulateNextYear = () => {
     const adjusted = applyDependencies({ revenue, spending });
@@ -199,7 +212,12 @@ function App() {
           deficit={deficitCurrent}
           gdpGain={adjustedState.gdpGain}
         />
-        <InfoBox text={infoText} />
+        <InfoBox
+          text={infoText}
+          happiness={happiness}
+          interestRate={interestRate}
+          unemploymentRate={unemploymentRate}
+        />
       </div>
       <div className="flex space-x-2 mt-4">
         <button
