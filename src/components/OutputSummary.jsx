@@ -1,18 +1,34 @@
 import React from 'react';
+import {
+  getTotalRevenue,
+  getTotalSpending,
+  getDeficit,
+  getDebtInterest,
+} from '../utils/calculations';
+import { getDynamicInterestRate } from '../utils/economics';
 
-function OutputSummary({ totals }) {
-  const { revenue, spending, deficit, debt } = totals;
+const OutputSummary = ({ revenue, spending, debt, year }) => {
+  const totalRevenue = getTotalRevenue(revenue);
+  const totalSpending = getTotalSpending(spending);
+  const deficit = getDeficit(revenue, spending);
+  const rate = getDynamicInterestRate(debt);
+  const interest = getDebtInterest(debt, rate);
+
   return (
-    <div className="p-4 bg-gray-100 rounded">
-      <h2 className="font-bold mb-2">Summary</h2>
-      <ul>
-        <li>Total Revenue: £{revenue}bn</li>
-        <li>Total Spending: £{spending}bn</li>
-        <li>Deficit/Surplus: £{deficit}bn</li>
-        <li>National Debt: £{debt}bn</li>
-      </ul>
+    <div className="p-4 rounded-xl shadow bg-white space-y-2">
+      <h2 className="text-xl font-bold">Budget Summary - {year}</h2>
+      <p>Total Revenue: £{totalRevenue.toFixed(1)}bn</p>
+      <p>Total Spending: £{totalSpending.toFixed(1)}bn</p>
+      <p>
+        {deficit >= 0
+          ? `Surplus: £${deficit.toFixed(1)}bn`
+          : `Deficit: £${(-deficit).toFixed(1)}bn`}
+      </p>
+      <p>Cumulative Debt: £{debt.toFixed(1)}bn</p>
+      <p>Interest Rate: {(rate * 100).toFixed(2)}%</p>
+      <p>Debt Interest: £{interest.toFixed(1)}bn</p>
     </div>
   );
-}
+};
 
 export default OutputSummary;
