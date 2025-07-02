@@ -79,6 +79,19 @@ function App() {
 
   const handleBudgetChange = (deptName, value) => {
     setBudgets((prev) => ({ ...prev, [deptName]: value }));
+    const categories = Object.keys(departmentBudgets[deptName].categories);
+    const currentTotal = categories.reduce(
+      (sum, key) => sum + (spending[key] || 0),
+      0
+    );
+    if (value < currentTotal && currentTotal > 0) {
+      const ratio = value / currentTotal;
+      const updatedSpending = { ...spending };
+      categories.forEach((key) => {
+        updatedSpending[key] = +(spending[key] * ratio).toFixed(1);
+      });
+      setSpending(updatedSpending);
+    }
   };
 
   const handleSpendingChange = (category, value) => {
