@@ -76,7 +76,7 @@ function App() {
 
   const revenueSliders = Object.keys(revenue).map((key) => ({
     label: key,
-    value: revenue[key],
+    value: adjustedState.revenue[key],
     min: 0,
     max: revenueBaseline[key] * 2,
     step: 1,
