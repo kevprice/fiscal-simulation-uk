@@ -6,6 +6,7 @@ import {
   getDebtInterest,
 } from '../utils/calculations';
 import { getDynamicInterestRate } from '../utils/economics';
+import { calculateHappinessIndex } from '../utils/qualityOfLife';
 
 const OutputSummary = ({ revenue, spending, debt, year }) => {
   const totalRevenue = getTotalRevenue(revenue);
@@ -13,6 +14,7 @@ const OutputSummary = ({ revenue, spending, debt, year }) => {
   const deficit = getDeficit(revenue, spending);
   const rate = getDynamicInterestRate(debt);
   const interest = getDebtInterest(debt, rate);
+  const happiness = calculateHappinessIndex(spending);
 
   return (
     <div className="p-4 rounded-xl shadow bg-white space-y-2">
@@ -27,6 +29,7 @@ const OutputSummary = ({ revenue, spending, debt, year }) => {
       <p>Cumulative Debt: £{debt.toFixed(1)}bn</p>
       <p>Interest Rate: {(rate * 100).toFixed(2)}%</p>
       <p>Debt Interest: £{interest.toFixed(1)}bn</p>
+      <p>Happiness Index: {happiness}/10</p>
     </div>
   );
 };

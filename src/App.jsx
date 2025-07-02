@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import SliderGroup from './components/SliderGroup';
+import DepartmentGroup from './components/DepartmentGroup';
 import OutputSummary from './components/OutputSummary';
 import ChartDisplay from './components/ChartDisplay';
 import HistoryChart from './components/HistoryChart';
 import { revenueBaseline, spendingBaseline } from './data/fiscalBaseline';
+import { departmentBudgets } from './data/departmentBudgets';
 import {
   getTotalRevenue,
   getTotalSpending,
@@ -68,9 +70,8 @@ function App() {
     setRevenue(updated);
   };
 
-  const handleSpendingChange = (index, value) => {
-    const keys = Object.keys(spending);
-    const updated = { ...spending, [keys[index]]: value };
+  const handleSpendingChange = (category, value) => {
+    const updated = { ...spending, [category]: value };
     setSpending(updated);
   };
 
@@ -82,13 +83,6 @@ function App() {
     step: 1,
   }));
 
-  const spendingSliders = Object.keys(spending).map((key) => ({
-    label: key,
-    value: spending[key],
-    min: 0,
-    max: spendingBaseline[key] * 2,
-    step: 1,
-  }));
 
   return (
     <div className="max-w-4xl mx-auto p-4">
@@ -99,9 +93,9 @@ function App() {
           sliders={revenueSliders}
           onChange={handleRevenueChange}
         />
-        <SliderGroup
-          title="Spending"
-          sliders={spendingSliders}
+        <DepartmentGroup
+          departments={departmentBudgets}
+          spending={spending}
           onChange={handleSpendingChange}
         />
       </div>
