@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import SliderGroup from './components/SliderGroup';
 import OutputSummary from './components/OutputSummary';
 import ChartDisplay from './components/ChartDisplay';
+import HistoryChart from './components/HistoryChart';
 import { revenueBaseline, spendingBaseline } from './data/fiscalBaseline';
 import {
   getTotalRevenue,
@@ -14,8 +15,52 @@ function App() {
   const [spending, setSpending] = useState(spendingBaseline);
   const [year, setYear] = useState(2024);
   const [debt, setDebt] = useState(2000); // Starting national debt in £bn
+  const [history, setHistory] = useState([
+    {
+      year: 2024,
+      revenue: getTotalRevenue(revenueBaseline),
+      spending: getTotalSpending(spendingBaseline),
+      debt: 2000,
+    },
+  ]);
 
   const adjustedState = applyDependencies({ revenue, spending });
+
+  const simulateNextYear = () => {
+    const adjusted = applyDependencies({ revenue, spending });
+    const totalRevenue = getTotalRevenue(adjusted.revenue);
+    const totalSpending = getTotalSpending(adjusted.spending);
+    const deficit = totalRevenue - totalSpending;
+    const updatedDebt = debt + (deficit < 0 ? -deficit : 0);
+
+    setHistory((prev) => [
+      ...prev,
+      {
+        year: year + 1,
+        revenue: totalRevenue,
+        spending: totalSpending,
+        debt: updatedDebt,
+      },
+    ]);
+
+    setDebt(updatedDebt);
+    setYear((prev) => prev + 1);
+  };
+
+  const handleReset = () => {
+    setRevenue(revenueBaseline);
+    setSpending(spendingBaseline);
+    setYear(2024);
+    setDebt(2000);
+    setHistory([
+      {
+        year: 2024,
+        revenue: getTotalRevenue(revenueBaseline),
+        spending: getTotalSpending(spendingBaseline),
+        debt: 2000,
+      },
+    ]);
+  };
 
   const handleRevenueChange = (index, value) => {
     const keys = Object.keys(revenue);
@@ -66,24 +111,22 @@ function App() {
         debt={debt}
         year={year}
       />
-      <button
-        onClick={() => {
-          const totalRevenue = getTotalRevenue(adjustedState.revenue);
-          const totalSpending = getTotalSpending(adjustedState.spending);
-          const deficit = totalRevenue - totalSpending;
-
-          setDebt((prevDebt) => {
-            const nextDebt = prevDebt + (deficit < 0 ? -deficit : 0);
-            return parseFloat(nextDebt.toFixed(1));
-          });
-
-          setYear((prevYear) => prevYear + 1);
-        }}
-        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-      >
-        Simulate Next Year
-      </button>
+      <div className="flex space-x-2 mt-4">
+        <button
+          onClick={simulateNextYear}
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          Simulate Next Year
+        </button>
+        <button
+          onClick={handleReset}
+          className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+        >
+          Reset
+        </button>
+      </div>
       <ChartDisplay />
+      <HistoryChart history={history} />
     </div>
   );
 }
