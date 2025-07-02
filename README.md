@@ -47,9 +47,10 @@ Build for production with `npm run build` and preview it with `npm run preview`.
 
 The `npm test` script runs the existing GDP percentile tests.
 
-## Assumptions and Sources
+## Data and Sources
 
-Key multipliers and parameter choices are documented in `src/data/assumptions.js`.
-These include references for unemployment spending multipliers (IMF, 2014),
-infrastructure effects (OECD, 2016) and the assumed peak of the Laffer curve for
-income tax (Diamond & Saez, 2011).
+Baseline revenue and spending numbers now come from the **OBR March 2024 Public
+finances databank**. See `src/data/obr2024Budget.js` for the exact figures used.
+Multipliers and other economic parameters are documented in
+`src/data/assumptions.js` with academic references (IMF 2014, OECD 2016,
+Diamond & Saez 2011).

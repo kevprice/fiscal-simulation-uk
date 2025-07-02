@@ -7,6 +7,7 @@ import {
   healthGDPBoost
 } from './economics';
 
+// Baseline spending uses OBR March 2024 data so adjustments reference real-world figures
 import { fiscalBaseline } from '../data/fiscalBaseline';
 
 /**
