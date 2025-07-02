@@ -1,3 +1,10 @@
+## 🌍 Live Site
+
+👉 [fiscal-simulation-uk on GitHub Pages](https://kevprice.github.io/fiscal-simulation-uk/)
+
+
+[![Deploy](https://github.com/kevprice/fiscal-simulation-uk/actions/workflows/deploy.yml/badge.svg)](https://github.com/kevprice/fiscal-simulation-uk/actions)
+
 # UK Budget Simulator
 
 This repository contains a simple prototype for a UK budget simulator. The
@@ -59,3 +66,5 @@ Diamond & Saez 2011).
 The simulator now lists the major UK government departments such as the
 Home Office, Ministry of Justice and Foreign Office. Smaller bodies are grouped
 under **Other Departments**.
+
+
