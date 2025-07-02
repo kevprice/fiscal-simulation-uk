@@ -12,6 +12,16 @@ import {
 } from '../utils/economics';
 import { macroBaseline } from '../data/macroBaseline';
 import { calculateHappinessIndex } from '../utils/qualityOfLife';
+import {
+  getLabourParticipation,
+  getProductivity,
+  getInflationRate,
+  getInequality,
+  getCrimeRate,
+  getLifeExpectancy,
+  getEducationOutcome,
+  getEmissionsIndex,
+} from '../utils/additionalMetrics';
 
 const OutputSummary = ({ revenue, spending, debt, year, deficit, gdpGain }) => {
   const totalRevenue = getTotalRevenue(revenue);
@@ -30,6 +40,14 @@ const OutputSummary = ({ revenue, spending, debt, year, deficit, gdpGain }) => {
     macroBaseline.gdp
   );
   const happiness = calculateHappinessIndex(spending);
+  const participation = getLabourParticipation(spending);
+  const productivity = getProductivity(spending);
+  const inflation = getInflationRate(balance, gdpGain || 0);
+  const inequality = getInequality(spending, revenue);
+  const crime = getCrimeRate(unemployment, inequality, spending);
+  const lifeExpectancy = getLifeExpectancy(spending);
+  const educationIndex = getEducationOutcome(spending);
+  const emissions = getEmissionsIndex(spending, revenue);
   const gdp = macroBaseline.gdp + (gdpGain || 0);
   const growthRate = ((gdpGain || 0) / macroBaseline.gdp) * 100;
 
@@ -56,6 +74,14 @@ const OutputSummary = ({ revenue, spending, debt, year, deficit, gdpGain }) => {
       <p>Net Migration: {migration.toFixed(2)}m</p>
       <p>Happiness Index: {happiness}/10</p>
       <p>Economic Growth: {growthRate.toFixed(2)}%</p>
+      <p>Labour Participation: {participation.toFixed(1)}%</p>
+      <p>Productivity Index: {productivity.toFixed(1)}</p>
+      <p>Inflation Rate: {(inflation * 100).toFixed(2)}%</p>
+      <p>Inequality (Gini): {inequality.toFixed(3)}</p>
+      <p>Crime Rate: {crime.toFixed(1)}</p>
+      <p>Life Expectancy: {lifeExpectancy.toFixed(1)} years</p>
+      <p>Education Index: {educationIndex.toFixed(2)}</p>
+      <p>Emissions Index: {emissions.toFixed(1)}</p>
     </div>
   );
 };
