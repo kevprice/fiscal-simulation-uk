@@ -1,36 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import SliderGroup from './components/SliderGroup';
 import OutputSummary from './components/OutputSummary';
 import ChartDisplay from './components/ChartDisplay';
 import { revenueBaseline, spendingBaseline } from './data/fiscalBaseline';
 import { calculateTotals } from './utils/calculations';
-import { dependencyModel } from './utils/dependencyModel';
+import { applyDependencies } from './utils/dependencyModel';
 
 function App() {
   const [revenue, setRevenue] = useState(revenueBaseline);
   const [spending, setSpending] = useState(spendingBaseline);
 
-  // Dynamic links between categories defined in dependencyModel
-  useEffect(() => {
-    const { baselineInfrastructure, gdpBoostPerInfrastructure, gdpVatMultiplier } = dependencyModel;
-    const gdpBoost = Math.max(0, spending.infrastructure - baselineInfrastructure) * gdpBoostPerInfrastructure;
-    setRevenue((prev) => ({
-      ...prev,
-      incomeTax: revenueBaseline.incomeTax + gdpBoost,
-      vat: revenueBaseline.vat + gdpBoost * gdpVatMultiplier,
-    }));
-  }, [spending.infrastructure]);
-
-  useEffect(() => {
-    const { baselineUnemployment, employmentPenaltyRate } = dependencyModel;
-    const employmentPenalty = Math.max(0, spending.unemployment - baselineUnemployment) * employmentPenaltyRate;
-    setRevenue((prev) => ({
-      ...prev,
-      incomeTax: revenueBaseline.incomeTax - employmentPenalty,
-    }));
-  }, [spending.unemployment]);
-
-  const totals = calculateTotals(revenue, spending);
+  const adjustedState = applyDependencies({ revenue, spending });
+  const totals = calculateTotals(adjustedState.revenue, adjustedState.spending);
 
   const handleRevenueChange = (index, value) => {
     const keys = Object.keys(revenue);
@@ -58,6 +39,7 @@ function App() {
     min: 0,
     max: spendingBaseline[key] * 2,
     step: 1,
+    disabled: key === 'pensions',
   }));
 
   return (
