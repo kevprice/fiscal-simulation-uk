@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import SliderGroup from './components/SliderGroup';
+import DepartmentBudgetGroup from './components/DepartmentBudgetGroup';
 import DepartmentGroup from './components/DepartmentGroup';
 import OutputSummary from './components/OutputSummary';
 import SourceCitations from './components/SourceCitations';
@@ -16,6 +17,10 @@ import { applyDependencies } from './utils/dependencyModel';
 function App() {
   const [revenue, setRevenue] = useState(revenueBaseline);
   const [spending, setSpending] = useState(spendingBaseline);
+  const initialBudgets = Object.fromEntries(
+    Object.entries(departmentBudgets).map(([name, dept]) => [name, dept.budget])
+  );
+  const [budgets, setBudgets] = useState(initialBudgets);
   const [year, setYear] = useState(2024);
   const [debt, setDebt] = useState(2000); // Starting national debt in £bn
   const [history, setHistory] = useState([
@@ -53,6 +58,7 @@ function App() {
   const handleReset = () => {
     setRevenue(revenueBaseline);
     setSpending(spendingBaseline);
+    setBudgets(initialBudgets);
     setYear(2024);
     setDebt(2000);
     setHistory([
@@ -71,6 +77,10 @@ function App() {
     setRevenue(updated);
   };
 
+  const handleBudgetChange = (deptName, value) => {
+    setBudgets((prev) => ({ ...prev, [deptName]: value }));
+  };
+
   const handleSpendingChange = (category, value) => {
     const updated = { ...spending, [category]: value };
     setSpending(updated);
@@ -84,6 +94,13 @@ function App() {
     step: 1,
   }));
 
+  const departmentsWithBudgets = Object.fromEntries(
+    Object.entries(departmentBudgets).map(([name, dept]) => [
+      name,
+      { ...dept, budget: budgets[name] },
+    ])
+  );
+
 
   return (
     <div className="max-w-4xl mx-auto p-4">
@@ -94,12 +111,17 @@ function App() {
           sliders={revenueSliders}
           onChange={handleRevenueChange}
         />
-        <DepartmentGroup
+        <DepartmentBudgetGroup
           departments={departmentBudgets}
-          spending={spending}
-          onChange={handleSpendingChange}
+          budgets={budgets}
+          onChange={handleBudgetChange}
         />
       </div>
+      <DepartmentGroup
+        departments={departmentsWithBudgets}
+        spending={spending}
+        onChange={handleSpendingChange}
+      />
       <OutputSummary
         revenue={adjustedState.revenue}
         spending={adjustedState.spending}
