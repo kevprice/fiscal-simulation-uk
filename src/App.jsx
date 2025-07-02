@@ -43,7 +43,6 @@ function App() {
     min: 0,
     max: spendingBaseline[key] * 2,
     step: 1,
-    disabled: key === 'pensions',
   }));
 
   return (
