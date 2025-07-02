@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import SliderGroup from './components/SliderGroup';
 import DepartmentGroup from './components/DepartmentGroup';
 import OutputSummary from './components/OutputSummary';
+import SourceCitations from './components/SourceCitations';
 import ChartDisplay from './components/ChartDisplay';
 import HistoryChart from './components/HistoryChart';
 import { revenueBaseline, spendingBaseline } from './data/fiscalBaseline';
@@ -121,6 +122,7 @@ function App() {
       </div>
       <ChartDisplay />
       <HistoryChart history={history} />
+      <SourceCitations />
     </div>
   );
 }
