@@ -91,7 +91,7 @@ const HistoryChart = ({ history }) => {
   };
 
   return (
-    <div className="p-4 bg-white shadow rounded-xl">
+    <div className="p-4 bg-white shadow rounded-xl text-sm">
       <Line data={data} options={options} />
     </div>
   );

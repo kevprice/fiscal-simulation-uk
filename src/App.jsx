@@ -137,8 +137,8 @@ function App() {
 
 
   return (
-    <div className="max-w-4xl mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">UK Budget Simulator</h1>
+    <div className="max-w-3xl mx-auto p-4">
+      <h1 className="text-xl font-bold mb-4">UK Budget Simulator</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <SliderGroup
           title="Revenue"
@@ -156,7 +156,7 @@ function App() {
         spending={spending}
         onChange={handleSpendingChange}
       />
-      <div className="fixed top-4 right-4 max-w-xs z-10 space-y-2">
+      <div className="fixed top-4 right-10 max-w-xs z-10 space-y-2">
         <OutputSummary
           revenue={adjustedState.revenue}
           spending={adjustedState.spending}

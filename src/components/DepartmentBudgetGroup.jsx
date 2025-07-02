@@ -20,8 +20,8 @@ function DepartmentBudgetGroup({ departments, budgets, onChange }) {
   };
 
   return (
-    <div className="p-4">
-      <h2 className="font-bold mb-2">Department Budgets</h2>
+    <div className="p-4 text-sm">
+      <h2 className="font-semibold text-base mb-2">Department Budgets</h2>
       <SliderGroup title="" sliders={sliders} onChange={handleChange} />
     </div>
   );

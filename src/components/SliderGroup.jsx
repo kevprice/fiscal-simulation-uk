@@ -14,8 +14,8 @@ function formatLabel(label) {
 
 function SliderGroup({ title, sliders, onChange }) {
   return (
-    <div className="p-4">
-      <h2 className="font-bold mb-2">{title}</h2>
+    <div className="p-4 text-sm">
+      <h2 className="font-semibold text-base mb-2">{title}</h2>
       {sliders.map(
         ({ label, value, min, max, step, baseline, disabled, info }, index) => {
           const percent = baseline !== undefined ? ((baseline - min) / (max - min)) * 100 : null;
