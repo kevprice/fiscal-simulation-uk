@@ -17,7 +17,7 @@ function SliderGroup({ title, sliders, onChange }) {
     <div className="p-4">
       <h2 className="font-bold mb-2">{title}</h2>
       {sliders.map(
-        ({ label, value, min, max, step, baseline, disabled }, index) => {
+        ({ label, value, min, max, step, baseline, disabled, info }, index) => {
           const percent = baseline !== undefined ? ((baseline - min) / (max - min)) * 100 : null;
           return (
             <div key={index} className="mb-4">
@@ -41,10 +41,13 @@ function SliderGroup({ title, sliders, onChange }) {
                     style={{ left: `${percent}%` }}
                   />
                 )}
-              </div>
             </div>
-          );
-        }
+            {info && (
+              <p className="text-xs text-gray-600 mt-1 whitespace-pre-line">{info}</p>
+            )}
+          </div>
+        );
+      }
       )}
     </div>
   );
