@@ -1,5 +1,6 @@
 import React from 'react';
 import SliderGroup from './SliderGroup';
+import { spendingInfo } from '../data/infoText';
 
 function DepartmentGroup({ departments, spending, onChange }) {
   return (
@@ -29,6 +30,7 @@ function DepartmentGroup({ departments, spending, onChange }) {
             max,
             step: 1,
             baseline: categories[key],
+            info: spendingInfo[key],
           };
         });
 

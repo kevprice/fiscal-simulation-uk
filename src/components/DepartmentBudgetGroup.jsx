@@ -1,5 +1,6 @@
 import React from 'react';
 import SliderGroup from './SliderGroup';
+import { budgetInfo } from '../data/infoText';
 
 function DepartmentBudgetGroup({ departments, budgets, onChange }) {
   const sliders = Object.entries(departments).map(([name, dept]) => ({
@@ -9,6 +10,7 @@ function DepartmentBudgetGroup({ departments, budgets, onChange }) {
     max: dept.budget * 2,
     step: 1,
     baseline: dept.budget,
+    info: budgetInfo[name],
   }));
 
   const handleChange = (index, value) => {

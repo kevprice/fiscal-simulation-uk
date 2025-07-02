@@ -5,12 +5,12 @@ import DepartmentGroup from './components/DepartmentGroup';
 import OutputSummary from './components/OutputSummary';
 import SourceCitations from './components/SourceCitations';
 import BaselineKey from './components/BaselineKey';
-import InfoBox from './components/InfoBox';
 import ChartDisplay from './components/ChartDisplay';
 import HistoryChart from './components/HistoryChart';
 import { revenueBaseline, spendingBaseline } from './data/fiscalBaseline';
 import { macroBaseline } from './data/macroBaseline';
 import { departmentBudgets } from './data/departmentBudgets';
+import { revenueInfo } from './data/infoText';
 import {
   getTotalRevenue,
   getTotalSpending,
@@ -23,46 +23,6 @@ import {
 } from './utils/economics';
 import { calculateHappinessIndex } from './utils/qualityOfLife';
 
-const defaultInfo =
-  'This simulator uses baseline figures from the Office for Budget Responsibility\'s March 2024 Public Finances databank. Department budgets are mapped from the same source. Spending multipliers and other assumptions are documented in src/data/assumptions.js.';
-
-const revenueInfo = {
-  incomeTax:
-    'Income tax revenue. Increasing this slider raises total revenue. Baseline from OBR 2024.',
-  nationalInsurance:
-    'National Insurance contributions. Baseline from OBR 2024.',
-  vat: 'Value Added Tax receipts based on OBR 2024.',
-  corporationTax: 'Corporation tax revenue.',
-  fuelDuty: 'Fuel duty receipts.',
-  alcoholDuty: 'Alcohol duty receipts.',
-  tobaccoDuty: 'Tobacco duty receipts.',
-  other: 'Other government revenue.',
-};
-
-const spendingInfo = {
-  unemployment:
-    'Unemployment benefits. Extra spending boosts GDP using a 1.3 multiplier (IMF 2014), which increases tax revenues.',
-  infrastructure:
-    'Infrastructure investment. Extra spending boosts GDP with a multiplier around 2.0 (OECD 2016).',
-  education:
-    'Education spending. Higher funding improves long‑term GDP (Hanushek & Woessmann 2015).',
-  health:
-    'Health/NHS budget. Increased spending can raise productivity with a ~1.3 multiplier (WHO/Bloom 2008).',
-};
-
-const budgetInfo = {
-  'Department of Health and Social Care':
-    'Sets the overall health budget. Lowering it scales the health category down proportionally.',
-  'Department for Education':
-    'Controls the education budget. Reducing it shrinks education spending.',
-  'Ministry of Defence': 'Total defence budget.',
-  'Department for Work and Pensions':
-    'Welfare budget covering unemployment, disability and pensions. Reduced budgets scale those categories.',
-  'Housing and Local Government':
-    'Budget for housing support and grants to local government.',
-  'Infrastructure and Transport': 'Infrastructure and transport budget.',
-};
-
 function App() {
   const [revenue, setRevenue] = useState(revenueBaseline);
   const [spending, setSpending] = useState(spendingBaseline);
@@ -72,7 +32,6 @@ function App() {
   const [budgets, setBudgets] = useState(initialBudgets);
   const [year, setYear] = useState(2024);
   const [debt, setDebt] = useState(2000); // Starting national debt in £bn
-  const [infoText, setInfoText] = useState(defaultInfo);
   const [history, setHistory] = useState([
     {
       year: 2024,
@@ -127,7 +86,6 @@ function App() {
         debt: 2000,
       },
     ]);
-    setInfoText(defaultInfo);
   };
 
   const handleRevenueChange = (index, value) => {
@@ -135,8 +93,6 @@ function App() {
     const key = keys[index];
     const updated = { ...revenue, [key]: value };
     setRevenue(updated);
-    const desc = revenueInfo[key] || `${key} revenue.`;
-    setInfoText(`${desc} Set to £${value}bn.`);
   };
 
   const handleBudgetChange = (deptName, value) => {
@@ -153,19 +109,13 @@ function App() {
         updatedSpending[key] = +(spending[key] * ratio).toFixed(1);
       });
       setSpending(updatedSpending);
-      const desc = budgetInfo[deptName] || `${deptName} budget.`;
-      setInfoText(`${desc} Reduced to £${value}bn and category spend scaled.`);
       return;
     }
-    const desc = budgetInfo[deptName] || `${deptName} budget.`;
-    setInfoText(`${desc} Set to £${value}bn.`);
   };
 
   const handleSpendingChange = (category, value) => {
     const updated = { ...spending, [category]: value };
     setSpending(updated);
-    const desc = spendingInfo[category] || `${category} spending.`;
-    setInfoText(`${desc} Set to £${value}bn.`);
   };
 
   const revenueSliders = Object.keys(revenue).map((key) => ({
@@ -175,6 +125,7 @@ function App() {
     max: revenueBaseline[key] * 2,
     step: 1,
     baseline: revenueBaseline[key],
+    info: revenueInfo[key],
   }));
 
   const departmentsWithBudgets = Object.fromEntries(
@@ -212,13 +163,6 @@ function App() {
           debt={debt}
           year={year}
           deficit={deficitCurrent}
-          gdpGain={adjustedState.gdpGain}
-        />
-        <InfoBox
-          text={infoText}
-          happiness={happiness}
-          interestRate={interestRate}
-          unemploymentRate={unemploymentRate}
           gdpGain={adjustedState.gdpGain}
         />
       </div>
