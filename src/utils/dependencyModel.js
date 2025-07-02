@@ -49,5 +49,5 @@ export function applyDependencies(state) {
   newState.revenue.vat += totalGDPGain * 0.2;
   newState.revenue.corporationTax += totalGDPGain * 0.1;
 
-  return newState;
+  return { ...newState, gdpGain: totalGDPGain };
 }

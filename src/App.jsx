@@ -11,6 +11,7 @@ import { departmentBudgets } from './data/departmentBudgets';
 import {
   getTotalRevenue,
   getTotalSpending,
+  getDeficit,
 } from './utils/calculations';
 import { applyDependencies } from './utils/dependencyModel';
 
@@ -33,6 +34,7 @@ function App() {
   ]);
 
   const adjustedState = applyDependencies({ revenue, spending });
+  const deficitCurrent = getDeficit(adjustedState.revenue, adjustedState.spending);
 
   const simulateNextYear = () => {
     const adjusted = applyDependencies({ revenue, spending });
@@ -140,6 +142,8 @@ function App() {
         spending={adjustedState.spending}
         debt={debt}
         year={year}
+        deficit={deficitCurrent}
+        gdpGain={adjustedState.gdpGain}
       />
       <div className="flex space-x-2 mt-4">
         <button
