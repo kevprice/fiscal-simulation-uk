@@ -8,6 +8,7 @@ function DepartmentBudgetGroup({ departments, budgets, onChange }) {
     min: 0,
     max: dept.budget * 2,
     step: 1,
+    baseline: dept.budget,
   }));
 
   const handleChange = (index, value) => {

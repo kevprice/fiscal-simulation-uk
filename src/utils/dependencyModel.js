@@ -25,19 +25,19 @@ export function applyDependencies(state) {
   // --- GDP Boosts from Spending ---
   let totalGDPGain = 0;
 
-  if (extraUnemp > 0) {
+  if (extraUnemp !== 0) {
     totalGDPGain += unemploymentGDPBoost(extraUnemp); // IMF 2014
   }
 
-  if (extraInfra > 0) {
+  if (extraInfra !== 0) {
     totalGDPGain += infrastructureGDPBoost(extraInfra); // OECD 2016
   }
 
-  if (extraEducation > 0) {
+  if (extraEducation !== 0) {
     totalGDPGain += educationGDPBoost(extraEducation); // Hanushek & Woessmann 2015
   }
 
-  if (extraHealth > 0) {
+  if (extraHealth !== 0) {
     totalGDPGain += healthGDPBoost(extraHealth); // WHO/Bloom 2008
   }
 

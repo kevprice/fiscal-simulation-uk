@@ -28,6 +28,7 @@ function DepartmentGroup({ departments, spending, onChange }) {
             min: 0,
             max,
             step: 1,
+            baseline: categories[key],
           };
         });
 

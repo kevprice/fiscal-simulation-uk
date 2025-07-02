@@ -4,6 +4,7 @@ import DepartmentBudgetGroup from './components/DepartmentBudgetGroup';
 import DepartmentGroup from './components/DepartmentGroup';
 import OutputSummary from './components/OutputSummary';
 import SourceCitations from './components/SourceCitations';
+import BaselineKey from './components/BaselineKey';
 import InfoBox from './components/InfoBox';
 import ChartDisplay from './components/ChartDisplay';
 import HistoryChart from './components/HistoryChart';
@@ -173,6 +174,7 @@ function App() {
     min: 0,
     max: revenueBaseline[key] * 2,
     step: 1,
+    baseline: revenueBaseline[key],
   }));
 
   const departmentsWithBudgets = Object.fromEntries(
@@ -236,6 +238,7 @@ function App() {
       </div>
       <ChartDisplay />
       <HistoryChart history={history} />
+      <BaselineKey />
       <SourceCitations />
     </div>
   );
