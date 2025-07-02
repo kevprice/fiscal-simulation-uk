@@ -34,7 +34,7 @@ uk-budget-simulator/
 │ │ └── calculations.js # Derived values like totals and debt logic
 │ │
 │ ├── App.jsx # Main layout and app logic
-│ ├── index.js # React root
+│ ├── index.jsx # React root
 │ └── index.css # Tailwind base styles
 │
 ├── vite.config.js
