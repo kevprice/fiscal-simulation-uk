@@ -21,3 +21,8 @@ export const spendingBaseline = {
   localGov: 60,
   debtInterest: 90,
 };
+
+export const fiscalBaseline = {
+  revenue: revenueBaseline,
+  spending: spendingBaseline,
+};
