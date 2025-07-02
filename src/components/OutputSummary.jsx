@@ -32,7 +32,7 @@ const OutputSummary = ({ revenue, spending, debt, year, deficit, gdpGain }) => {
   const happiness = calculateHappinessIndex(spending);
 
   return (
-    <div className="p-4 rounded-xl shadow bg-white space-y-2 fixed top-4 right-4 max-w-xs z-10">
+    <div className="p-4 rounded-xl shadow bg-white space-y-2">
       <h2 className="text-xl font-bold">Budget Summary - {year}</h2>
       <p>Total Revenue: £{totalRevenue.toFixed(1)}bn</p>
       <p>Total Spending: £{totalSpending.toFixed(1)}bn</p>
